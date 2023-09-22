@@ -88,11 +88,7 @@ public class Board extends JPanel {
 		}
 	}
 	
-	public boolean isValidMove(Move m) {
-		System.out.println(m.piece.row);
-		System.out.println(m.newcol);
-		System.out.println(m.newrow);
-		System.out.println("knight");
+	public boolean isValidMove(Move m) {	
 		if(sameColor(m.piece,m.capture)) {
 			return false;
 		}    
@@ -103,7 +99,6 @@ public class Board extends JPanel {
 				return false;
 		}else
 		if(m.piece.name ==  "Bishop") {
-			System.out.println("Bishop");
 			int dx = m.newcol - m.piece.col;
 			int dy = m.newrow - m.piece.row;
 			if(Math.abs(m.piece.col - m.newcol) - Math.abs(m.piece.row - m.newrow) == 0) {
@@ -119,36 +114,39 @@ public class Board extends JPanel {
 			return false;
 		}else
 		if(m.piece.name ==  "King") {
-			System.out.println("King");
 		}else
 		if(m.piece.name == "Rook") {
-			System.out.println("Rook");
 		}else 
-		if(m.piece.name == "Pawn") {
-			System.out.println("Pawn");
-			System.out.println(m.newrow);
+		if(m.piece.name.equals("Pawn")) {
 
-			if(m.piece.col == m.newcol) {
-				if(m.piece.isWhite) {
-					if(m.piece.row == 6) {
-						if(m.newrow >=4 ) {
-							return true;
-						}else {
-							return false;
-						}
-					}else {
-						if(m.newrow +1 != m.piece.row ) {
-							return false;
-						}
+			if(!m.piece.isWhite) {
+				if(m.piece.row == 1) {
+					if(m.newrow <= 3) {
 						return true;
+					}return false;
+				}else {					
+					if(m.newrow - m.piece.row > 1 || m.newrow - m.piece.row <= 0) {
+						return false;
+					}else if((getPieceAt(m.newcol, m.newrow) != null && getPieceAt(m.piece.col , m.piece.row+1) == getPieceAt(m.newcol, m.newrow)) || (getPieceAt(m.newcol, m.newrow) == null && m.piece.col != m.newcol) ) {
+						return false;
 					}
-				}else {
-					if(m.piece.row == 1) {
-						
+					return true;
+				}
+			}else {
+				if(m.piece.row == 6) {
+					if(m.newrow > 3) {
+						return true;
+					}return false;
+				}else {					
+					if(m.piece.row - m.newrow > 1 ||  m.piece.row - m.newrow <= 0) {
+						return false;
+					}else if((getPieceAt(m.newcol, m.newrow) != null && getPieceAt(m.piece.col , m.piece.row) == getPieceAt(m.newcol, m.newrow+1)) || (getPieceAt(m.newcol, m.newrow) == null && m.piece.col != m.newcol) ) {
+						return false;
 					}
+					return true;
 				}
 			}
-			return false;
+			
 		}else {
 			System.out.println("Queen");
 		}             
