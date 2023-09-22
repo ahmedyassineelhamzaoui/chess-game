@@ -99,12 +99,24 @@ public class Board extends JPanel {
 		if(m.piece.name =="knight") {
 			if(Math.sqrt(Math.pow(m.piece.col - m.newcol, 2) + Math.pow(m.piece.row - m.newrow, 2)) == Math.sqrt(5)) {
 				return true;
-			}else {
-				return false;
 			}
+				return false;
 		}else
 		if(m.piece.name ==  "Bishop") {
 			System.out.println("Bishop");
+			int dx = m.newcol - m.piece.col;
+			int dy = m.newrow - m.piece.row;
+			if(Math.abs(m.piece.col - m.newcol) - Math.abs(m.piece.row - m.newrow) == 0) {
+				for(int i=1; i<Math.max(Math.abs(dx),Math.abs(dy)); i++) {
+					  int x = m.piece.col + dx/Math.abs(dx)*i;
+					  int y = m.piece.row + dy/Math.abs(dy)*i;
+					  if(getPieceAt(x,y) != null) {
+					    return false;
+					  }
+				}
+				return true;
+			}
+			return false;
 		}else
 		if(m.piece.name ==  "King") {
 			System.out.println("King");
@@ -114,9 +126,31 @@ public class Board extends JPanel {
 		}else 
 		if(m.piece.name == "Pawn") {
 			System.out.println("Pawn");
+			System.out.println(m.newrow);
+
+			if(m.piece.col == m.newcol) {
+				if(m.piece.isWhite) {
+					if(m.piece.row == 6) {
+						if(m.newrow >=4 ) {
+							return true;
+						}else {
+							return false;
+						}
+					}else {
+						if(m.newrow +1 != m.piece.row ) {
+							return false;
+						}
+						return true;
+					}
+				}else {
+					if(m.piece.row == 1) {
+						
+					}
+				}
+			}
+			return false;
 		}else {
 			System.out.println("Queen");
-
 		}             
 		return true;
 	}
