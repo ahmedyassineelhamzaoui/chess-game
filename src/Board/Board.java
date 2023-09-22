@@ -93,12 +93,14 @@ public class Board extends JPanel {
 			return false;
 		}    
 		if(m.piece.name =="knight") {
+			
 			if(Math.sqrt(Math.pow(m.piece.col - m.newcol, 2) + Math.pow(m.piece.row - m.newrow, 2)) == Math.sqrt(5)) {
 				return true;
 			}
-				return false;
-		}else
-		if(m.piece.name ==  "Bishop") {
+			return false;
+			
+		}else if(m.piece.name ==  "Bishop") {
+			
 			int dx = m.newcol - m.piece.col;
 			int dy = m.newrow - m.piece.row;
 			if(Math.abs(m.piece.col - m.newcol) - Math.abs(m.piece.row - m.newrow) == 0) {
@@ -112,12 +114,43 @@ public class Board extends JPanel {
 				return true;
 			}
 			return false;
-		}else
-		if(m.piece.name ==  "King") {
-		}else
-		if(m.piece.name == "Rook") {
-		}else 
-		if(m.piece.name.equals("Pawn")) {
+			
+		}else if(m.piece.name ==  "King") {
+			if(Math.abs(m.piece.col - m.newcol) > 1 || Math.abs(m.piece.row - m.newrow) >1) {
+				return false;
+			}
+			return true;
+		}else if(m.piece.name == "Rook") {
+
+			  int dx = m.newcol - m.piece.col;
+			  int dy = m.newrow - m.piece.row;
+
+			  if(dx == 0 || dy == 0) { // vertical or horizontal move
+
+			    if(dx != 0) { // horizontal move
+			      for(int i=1; i<Math.abs(dx); i++) {
+			        int x = m.piece.col + dx/Math.abs(dx)*i; 
+			        if(getPieceAt(x, m.piece.row) != null) {
+			          return false;
+			        }
+			      }  
+			    }
+
+			    if(dy != 0) { // vertical move
+			      for(int i=1; i<Math.abs(dy); i++) {
+			        int y = m.piece.row + dy/Math.abs(dy)*i;
+			        if(getPieceAt(m.piece.col, y) != null) {  
+			          return false;
+			        }
+			      }
+			    }
+
+			    return true;
+
+			  }
+
+			  return false;
+		}else if(m.piece.name.equals("Pawn")) {
 
 			if(!m.piece.isWhite) {
 				if(m.piece.row == 1) {
